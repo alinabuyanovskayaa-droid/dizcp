@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Корзина — Экскурсии</title>
+  <style>
+    /* Система: базовая сетка 4px. Все интервалы кратны 4 */
+    :root{
+      --forest-green: #3A7D44;
+      --grey-pebble: #6B8F82;
+      --amber-sunrise: #FF9F1C;
+      --bg: #F8F9FA;
+      --text: #212529;
+
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --radius-lg: 16px; /* 4 * 4px */
+      --card-gap: 16px;
+      --shadow: 0 6px 18px rgba(33,37,41,0.06);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    *{box-sizing: border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:var(--space-6);
+      font-size:16px; /* базовая */
+      line-height:1.4;
+    }
+
+    .container{
+      max-width:1160px; /* desktop */
+      margin:0 auto;
+      display:grid;
+      gap:var(--space-8);
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:var(--space-4);
+    }
+    h1{font-size:24px;margin:0;font-weight:700}
+
+    /* Layout: двухколоночная на десктопе, одна колонка на мобиле */
+    .content{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:var(--card-gap);
+    }
+
+    @media(max-width:880px){
+      .content{grid-template-columns:1fr}
+    }
+
+    /* Список карточек */
+    .cart-list{display:flex;flex-direction:column;gap:var(--card-gap);background:#ffffff;border-radius:20px;padding:var(--space-4);}
+
+    .card{
+      background:linear-gradient(180deg,#ffffff 0%, #f4f5f4 100%);
+      border:1px solid #e6e8e7;
+      background:#fff;
+      border-radius:var(--radius-lg);
+      padding:var(--space-4);
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap:var(--space-4);
+      align-items:center;
+      box-shadow:var(--shadow);
+    }
+
+    @media(max-width:520px){
+      .card{grid-template-columns: 1fr;grid-auto-rows:auto}
+    }
+
+    .card__img{
+      width:120px;height:88px;object-fit:cover;border-radius:12px;cursor:pointer;
+    }
+
+    .card__title{font-weight:600;font-size:16px;margin:0 0 var(--space-2) 0}
+    .muted{color:var(--grey-pebble);font-size:14px}
+
+    .card__meta{display:flex;gap:var(--space-3);align-items:center;margin-bottom:var(--space-4);flex-wrap:wrap}
+
+    /* Количество и действия */
+    .card__actions{display:flex;align-items:center;gap:var(--space-3)}
+    .qty{
+      display:inline-flex;align-items:center;border-radius:10px;padding:4px;background:#F2F6F2;gap:8px
+    }
+    .qty button{border:0;background:transparent;padding:6px;cursor:pointer}
+    .price{font-weight:700;font-size:18px}
+
+    .ghost{background:transparent;border:0;cursor:pointer}
+
+    .text-danger{color:#d9534f}
+
+    /* Сайдбар — сводка заказа */
+    .summary{
+      background:#fff;border-radius:var(--radius-lg);padding:var(--space-4);box-shadow:var(--shadow);position:sticky;top:24px;
+    }
+    .summary h3{margin:0 0 var(--space-3) 0}
+    .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-2)}
+
+    .total{font-size:20px;font-weight:700}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;border:0;cursor:pointer;font-weight:600
+    }
+    .btn--primary{background:var(--forest-green);color:#fff}
+    .btn--secondary{background:var(--grey-pebble);color:#fff}
+    .btn--ghost{background:transparent;border:1px solid #e9ecef}
+
+    input[type="text"], input[type="number"]{
+      width:100%;padding:10px;border-radius:10px;border:1px solid #E6E9EB;font-size:14px
+    }
+
+    /* Уведомления и подсказки */
+    .note{background:#fff3e0;border-left:4px solid var(--amber-sunrise);padding:10px;border-radius:8px;font-size:14px}
+
+    /* Удалённые элементы (undo) */
+    .undo{
+      display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:12px;background:#fff;box-shadow:var(--shadow);gap:12px
+    }
+
+    /* Прогресс-бар для геймификации */
+    .progress{
+      background:#f1f3f2;border-radius:10px;height:12px;overflow:hidden
+    }
+    .progress__bar{height:100%;background:linear-gradient(90deg,var(--forest-green),#2f6a39);width:60%}
+
+    a.link{color:var(--forest-green);text-decoration:none;font-weight:600}
+
+    /* footer */
+    footer{margin-top:var(--space-6);text-align:center;color:var(--grey-pebble);font-size:14px}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Корзина</h1>
+        <p class="muted">Ваши выбранные экскурсии</p>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <button class="btn btn--secondary">Продолжить выбор экскурсий</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- Список товаров -->
+      <section class="cart-list">
+
+        <!-- Карточка товара -->
+        <article class="card" aria-labelledby="item-1-title">
+          <img class="card__img" src="https://images.unsplash.com/photo-1503264116251-35a269479413?w=800&q=60" alt="Экскурсия по старому городу">
+
+          <div>
+            <h2 id="item-1-title" class="card__title">Экскурсия по старому городу</h2>
+            <div class="card__meta">
+              <span class="muted">25 ноября, 10:00</span>
+              <span class="muted">•</span>
+              <span class="muted">Гид: Анна Петрова</span>
+              <span class="muted">•</span>
+              <span style="color:var(--grey-pebble);font-weight:600">В наличии: 8 мест</span>
+            </div>
+
+            <p class="muted">Размер группы: стандартный. Артикул тура: <strong>EX-2025-001</strong></p>
+
+            <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+              <div class="card__actions">
+                <div class="qty" aria-label="Количество мест">
+                  <button aria-label="Уменьшить">−</button>
+                  <div aria-live="polite">1</div>
+                  <button aria-label="Увеличить">+</button>
+                </div>
+
+                <button class="ghost" title="Добавить в избранное"><!-- icon -->❤</button>
+                <button class="ghost" title="Удалить из корзины"><!-- icon -->🗑</button>
+              </div>
+
+              <div style="margin-left:auto;text-align:right">
+                <div class="price">40 BYN</div>
+                <div class="muted" style="font-size:13px">Цена за 1 место</div>
+              </div>
+            </div>
+
+            <!-- Подсказка при удалении -->
+            <!-- Этот блок показывается при удалении: даёт возможность восстановить -->
+            <!-- <div class="undo" role="status">Товар удалён. <button class="btn btn--ghost">Отменить</button></div> -->
+
+          </div>
+        </article>
+
+        <!-- Ещё одна карточка (пример) -->
+        <article class="card" aria-labelledby="item-2-title">
+          <img class="card__img" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&q=60" alt="Ночная экскурсия">
+
+          <div>
+            <h2 id="item-2-title" class="card__title">Ночная прогулка по набережной</h2>
+            <div class="card__meta">
+              <span class="muted">28 ноября, 20:00</span>
+              <span class="muted">•</span>
+              <span class="muted">Гид: Иван Иванов</span>
+              <span style="color:var(--amber-sunrise);font-weight:700">Акция: скидка 10%</span>
+            </div>
+
+            <p class="muted">Артикул тура: <strong>EX-2025-045</strong></p>
+
+            <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+              <div class="card__actions">
+                <div class="qty" aria-label="Количество мест">
+                  <button aria-label="Уменьшить">−</button>
+                  <div aria-live="polite">2</div>
+                  <button aria-label="Увеличить">+</button>
+                </div>
+
+                <button class="ghost" title="Добавить в избранное">❤</button>
+                <button class="ghost" title="Удалить из корзины">🗑</button>
+              </div>
+
+              <div style="margin-left:auto;text-align:right">
+                <div class="price">30 BYN</div>
+                <div class="muted" style="font-size:13px">Цена за 1 место</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Информация о бонусах / промокодах -->
+        <div class="card" style="grid-template-columns:1fr;align-items:flex-start">
+          <div>
+            <h3 style="margin-top:0">Бонусы и промокоды</h3>
+            <p class="muted">Примените промокод или используйте бонусы для получения скидки.</p>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <input type="text" placeholder="Промокод" />
+              <button class="btn btn--ghost">Применить</button>
+            </div>
+
+            <div style="margin-top:12px" class="note">Примечание: скидка применяется к стоимости выбранных экскурсий и отображается в корзине.</div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Сайдбар: сводка заказа -->
+      <aside class="summary" aria-labelledby="summary-title">
+        <h3 id="summary-title">Ваш заказ</h3>
+
+        <div class="row"><span>Подытог</span><span>100 BYN</span></div>
+        <div class="row" style="color:var(--amber-sunrise);font-weight:600"><span>Скидки</span><span>-10 BYN</span></div>
+        <div class="row"><span>Доставка / сборы</span><span>—</span></div>
+
+        <div style="border-top:1px solid #f1f3f2;padding-top:12px;margin-top:12px" class="row total">
+          <span>Итого</span>
+          <span>90 BYN</span>
+        </div>
+
+        <div style="margin-top:12px">
+          <label class="muted" style="font-size:13px">До бесплатного подарка:</label>
+          <div class="progress" style="margin-top:8px"><div class="progress__bar" style="width:45%"></div></div>
+          <div class="muted" style="font-size:13px;margin-top:6px">Осталось 40 BYN до бонуса</div>
+        </div>
+
+        <div style="margin-top:16px;display:grid;gap:10px">
+          <button class="btn btn--primary">Оформить заказ</button>
+          <button class="btn btn--secondary">Оплатить позже</button>
+        </div>
+
+        <div style="margin-top:12px" class="muted">Нажимая «Оформить заказ», вы соглашаетесь с <a class="link" href="#">правилами</a> и <a class="link" href="#">политикой возврата</a>.</div>
+      </aside>
+
+    </main>
+
+    <footer>
+      © 2025 — Сервис подбора и бронирования экскурсий
+    </footer>
+  </div>
+</body>
+</html>
