@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Корзина — Экскурсии</title>
-
+  <title>Оформить заказ — Экскурсии</title>
   <style>
-    /* ---------------------- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ---------------------- */
-    :root{
+    :root {
       --forest-green: #3A7D44;
       --grey-pebble: #6B8F82;
       --amber-sunrise: #FF9F1C;
@@ -20,53 +18,75 @@
       --space-4: 16px;
       --space-6: 24px;
       --space-8: 32px;
-
       --radius-lg: 16px;
-      --card-gap: 16px;
       --shadow: 0 6px 18px rgba(33,37,41,0.06);
-
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
-    *{box-sizing:border-box}
-    html, body{height:100%}
-    body{
-      margin:0;
-      background:var(--bg);
-      padding:var(--space-6);
-      color:var(--text);
-      line-height:1.4;
-      -webkit-font-smoothing:antialiased;
+    * {
+      box-sizing: border-box;
     }
 
-    .container{
-      max-width:1160px;
-      margin:0 auto;
-      display:grid;
-      gap:var(--space-8);
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      padding: var(--space-6);
+      font-size: 16px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap:var(--space-4);
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: grid;
+      gap: var(--space-8);
+      padding: 0 var(--space-4);
     }
 
-    h1{margin:0;font-size:28px;font-weight:700}
-    .muted{color:var(--grey-pebble)}
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
 
-    /* ---------------------- ПРОГРЕСС-БАР ШАГОВ ---------------------- */
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    header button {
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: none;
+      background-color: var(--grey-pebble);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    header button:hover {
+      background-color: #5a756d;
+    }
+
+    /* Прогресс-бар */
     .progress-steps {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       gap: 8px;
-      margin-top: 12px;
+      margin: 0 auto var(--space-8);
       font-size: 14px;
       color: var(--forest-green);
-      flex-wrap: wrap;
+      max-width: 700px;
     }
 
     .step {
@@ -75,6 +95,7 @@
       background: #ececec;
       font-weight: 500;
       color: var(--grey-pebble);
+      user-select: none;
       white-space: nowrap;
     }
 
@@ -88,335 +109,320 @@
       height: 3px;
       background: #ccc;
       border-radius: 2px;
+      flex-shrink: 0;
     }
 
     .line.completed {
       background: var(--forest-green);
     }
 
-    /* ---------------------- ЛЭЙАУТ ---------------------- */
-    .content{
-      display:grid;
+    /* Контент: форма и сводка */
+    main.content {
+      display: grid;
       grid-template-columns: 1fr 360px;
-      gap:var(--card-gap);
+      gap: var(--space-6);
     }
 
-    @media(max-width:880px){
-      .content{grid-template-columns:1fr}
+    /* Мобильный адаптив */
+    @media (max-width: 880px) {
+      main.content {
+        grid-template-columns: 1fr;
+      }
     }
 
-    /* ---------------------- СПИСОК КАРТОЧЕК ---------------------- */
-    .cart-list{
-      display:flex;
-      flex-direction:column;
-      gap:var(--card-gap);
-      background:#fff;
-      border-radius:20px;
-      padding:var(--space-4);
+    /* Форма */
+    .form-box {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: var(--space-6);
     }
 
-    .card{
-      background:#fff;
-      border:1px solid #e6e8e7;
-      border-radius:var(--radius-lg);
-      box-shadow:var(--shadow);
-      padding:var(--space-4);
-      display:grid;
-      grid-template-columns:120px 1fr;
-      gap:var(--space-4);
-      align-items:center;
+    .form-box h2 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--forest-green);
     }
 
-    @media(max-width:520px) {
-      .card {grid-template-columns:1fr}
+    .form-group {
+      display: grid;
+      gap: var(--space-2);
     }
 
-    .card__img{
-      width:120px;
-      height:88px;
-      object-fit:cover;
-      border-radius:12px;
-      cursor:pointer;
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
     }
 
-    .card__title{
-      font-weight:600;
-      font-size:16px;
-      margin:0 0 var(--space-2) 0;
+    input,
+    textarea {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #e6e9eb;
+      font-size: 14px;
+      width: 100%;
+      resize: none;
+      font-family: inherit;
+      color: var(--text);
+      transition: border-color 0.25s ease;
     }
 
-    .card__meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:var(--space-3);
-      font-size:14px;
-      margin-bottom:var(--space-4);
-      color:var(--grey-pebble);
+    input:focus,
+    textarea:focus {
+      border-color: var(--forest-green);
+      outline: none;
     }
 
-    .card__actions{
-      display:flex;
-      align-items:center;
-      gap:var(--space-3);
+    textarea {
+      min-height: 100px;
     }
 
-    .qty{
-      display:inline-flex;
-      align-items:center;
-      background:#F2F6F2;
-      padding:4px 8px;
-      border-radius:10px;
-      gap:8px;
+   .payment-methods {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.payment-methods label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.payment-methods input[type="radio"] {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+@media (max-width: 400px) {
+  .payment-methods label {
+    white-space: normal;
+  }
+}
+
+    /* Итог заказа */
+    aside.summary {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 24px;
+      height: max-content;
     }
 
-    .qty button{
-      background:transparent;
-      border:0;
-      padding:6px;
-      cursor:pointer;
-      font-size:18px;
+    aside.summary h3 {
+      margin-top: 0;
+      margin-bottom: var(--space-4);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--forest-green);
     }
 
-    .price{font-size:18px;font-weight:700}
-
-    .ghost{
-      border:0;
-      background:transparent;
-      cursor:pointer;
-      font-size:18px;
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: var(--space-2);
+      font-size: 16px;
     }
 
-    /* ---------------------- ПРАВАЯ КОЛОНКА — ИТОГИ ---------------------- */
-    .summary{
-      background:#fff;
-      border-radius:var(--radius-lg);
-      padding:var(--space-4);
-      box-shadow:var(--shadow);
-      position:sticky;
-      top:24px;
+    .row.discount {
+      color: var(--amber-sunrise);
+      font-weight: 600;
     }
 
-    .row{
-      display:flex;
-      justify-content:space-between;
-      margin-bottom:var(--space-2);
+    .total {
+      font-weight: 700;
+      font-size: 20px;
+      border-top: 1px solid #f1f3f2;
+      padding-top: var(--space-3);
+      margin-top: var(--space-3);
     }
 
-    .total{
-      font-size:20px;
-      font-weight:700;
+    /* Кнопки */
+    .btn {
+      padding: 14px;
+      border-radius: 14px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 600;
+      width: 100%;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
     }
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:12px 16px;
-      border-radius:14px;
-      border:0;
-      cursor:pointer;
-      font-weight:600;
-      font-size:15px;
+    .btn--primary {
+      background: var(--forest-green);
+      color: #fff;
     }
 
-    .btn--primary{
-      background:var(--forest-green);
-      color:#fff;
+    .btn--primary:hover {
+      background: #2e5e2b;
     }
 
-    .btn--secondary{
-      background:var(--grey-pebble);
-      color:#fff;
+    /* Чекбокс */
+    .checkbox-label {
+      margin-top: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
     }
 
-    .btn--ghost{
-      background:transparent;
-      border:1px solid #e9ecef;
+    .checkbox-label input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
     }
 
-    /* ---------------------- ПРОГРЕСС-БАР БОНУСОВ ---------------------- */
-    .progress{
-      background:#f1f3f2;
-      border-radius:10px;
-      height:12px;
-      overflow:hidden;
+    /* Баннер бонуса */
+    .bonus-banner {
+      background: #fff3e0;
+      border-left: 4px solid var(--amber-sunrise);
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: var(--space-6);
+      font-size: 15px;
+      color: var(--amber-sunrise);
+      font-weight: 600;
     }
 
-    .progress__bar{
-      height:100%;
-      background:linear-gradient(90deg,var(--forest-green),#2f6a39);
-      width:45%;
+    /* Адаптивность для кнопок и прочего */
+    @media (max-width: 520px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-4);
+      }
+      header button {
+        width: 100%;
+      }
+      aside.summary {
+        position: static;
+        margin-top: var(--space-6);
+      }
     }
 
-    footer{
-      margin-top:var(--space-6);
-      text-align:center;
-      color:var(--grey-pebble);
-      font-size:14px;
+    /* Прогресс-бар */
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 0 auto var(--space-8);
+      font-size: 14px;
+      color: var(--forest-green);
+      max-width: 700px;
+    }
+
+    .step {
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: #ececec;
+      font-weight: 500;
+      color: var(--grey-pebble);
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .step.completed {
+      background: var(--forest-green);
+      color: #fff;
+    }
+
+    .line {
+      width: 45px;
+      height: 3px;
+      background: #ccc;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .line.completed {
+      background: var(--forest-green);
     }
   </style>
 </head>
-
 <body>
-
   <div class="container">
 
-    <!-- ---------------------- HEADER ---------------------- -->
     <header>
-      <div>
-        <h1>Корзина</h1>
-        <p class="muted">Ваши выбранные экскурсии</p>
-
-        <!-- ПРОГРЕСС-БАР ВСТАВЛЕН ЗДЕСЬ -->
-        <div class="progress-steps">
-          <div class="step completed">Корзина</div>
-          <div class="line completed"></div>
-          <div class="step">Оформление</div>
-          <div class="line"></div>
-          <div class="step">Оплата</div>
-          <div class="line"></div>
-          <div class="step">Готово</div>
-        </div>
-      </div>
-
-      <button class="btn btn--secondary">Продолжить выбор экскурсий</button>
+      <h1>Оформить заказ</h1>
+      <button>← Вернуться в корзину</button>
     </header>
 
-    <!-- ---------------------- CONTENT ---------------------- -->
+    <div class="progress-steps" aria-label="Прогресс оформления заказа" role="list">
+      <div class="step completed" role="listitem">Корзина</div>
+      <div class="line completed" aria-hidden="true"></div>
+      <div class="step completed" role="listitem">Оформление</div>
+      <div class="line" aria-hidden="true"></div>
+      <div class="step" role="listitem">Оплата</div>
+      <div class="line" aria-hidden="true"></div>
+      <div class="step" role="listitem">Готово</div>
+    </div>
+
     <main class="content">
 
-      <!-- ЛЕВАЯ КОЛОНКА — КАРТОЧКИ -->
-      <section class="cart-list">
+      <section class="form-box" aria-label="Форма оформления заказа">
+        <h2>Данные покупателя</h2>
+        <div class="form-group">
+          <label for="fullname">Имя и фамилия</label>
+          <input id="fullname" type="text" placeholder="Введите ваше имя" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">Телефон</label>
+          <input id="phone" type="tel" placeholder="+375 (__) ___-__-__" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="example@mail.com" required />
+        </div>
+        <div class="form-group">
+          <label for="comment">Комментарий (необязательно)</label>
+          <textarea id="comment" placeholder="Укажите пожелания или дополнительные данные"></textarea>
+        </div>
 
-        <!-- Товар 1 -->
-        <article class="card">
-          <img class="card__img" src="https://images.unsplash.com/photo-1503264116251-35a269479413?w=800" alt="Экскурсия по старому городу">
+        <h2>Способ оплаты</h2>
+        <div class="payment-methods" role="radiogroup" aria-label="Способ оплаты">
+          <label><input type="radio" name="pay" value="card" checked /> Банковская карта</label>
+          <label><input type="radio" name="pay" value="onplace" /> Оплата на месте</label>
+          <label><input type="radio" name="pay" value="online" /> Apple Pay / Google Pay</label>
+        </div>
 
-          <div>
-            <h2 class="card__title">Экскурсия по старому городу</h2>
+        <label class="checkbox-label">
+          <input type="checkbox" required />
+          Я согласен с условиями сервиса
+        </label>
 
-            <div class="card__meta">
-              <span>25 ноября, 10:00</span>
-              <span>•</span>
-              <span>Гид: Анна Петрова</span>
-              <span>•</span>
-              <span style="font-weight:600;color:var(--grey-pebble)">В наличии: 8 мест</span>
-            </div>
-
-            <p class="muted" style="margin-bottom:12px">
-              Размер группы: стандартный. Артикул тура: <strong>EX-2025-001</strong>
-            </p>
-
-            <div style="display:flex;align-items:center;gap:12px">
-              <div class="card__actions">
-                <div class="qty">
-                  <button>−</button>
-                  <div>1</div>
-                  <button>+</button>
-                </div>
-
-                <button class="ghost">❤</button>
-                <button class="ghost">🗑</button>
-              </div>
-
-              <div style="margin-left:auto;text-align:right">
-                <div class="price">40 BYN</div>
-                <div class="muted" style="font-size:13px">Цена за 1 место</div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Товар 2 -->
-        <article class="card">
-          <img class="card__img" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800" alt="Ночная прогулка">
-
-          <div>
-            <h2 class="card__title">Ночная прогулка по набережной</h2>
-
-            <div class="card__meta">
-              <span>28 ноября, 20:00</span>
-              <span>•</span>
-              <span>Гид: Иван Иванов</span>
-              <span style="color:var(--amber-sunrise);font-weight:700">Акция: скидка 10%</span>
-            </div>
-
-            <p class="muted" style="margin-bottom:12px">
-              Артикул тура: <strong>EX-2025-045</strong>
-            </p>
-
-            <div style="display:flex;align-items:center;gap:12px">
-              <div class="card__actions">
-                <div class="qty">
-                  <button>−</button>
-                  <div>2</div>
-                  <button>+</button>
-                </div>
-
-                <button class="ghost">❤</button>
-                <button class="ghost">🗑</button>
-              </div>
-
-              <div style="margin-left:auto;text-align:right">
-                <div class="price">30 BYN</div>
-                <div class="muted" style="font-size:13px">Цена за 1 место</div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Промокод -->
-        <article class="card" style="grid-template-columns:1fr">
-          <h3 style="margin-top:0">Бонусы и промокоды</h3>
-          <p class="muted">Введите промокод для получения скидки.</p>
-
-          <div style="display:flex;gap:8px;margin-top:12px">
-            <input type="text" placeholder="Промокод" style="padding:10px;border-radius:10px;border:1px solid #E6E9EB;width:100%">
-            <button class="btn btn--ghost">Применить</button>
-          </div>
-        </article>
-
+        <div class="bonus-banner" role="alert" aria-live="polite">
+          🎁 Забронируйте ещё тур и получите <strong>5% скидку</strong> на следующий!
+        </div>
       </section>
 
-      <!-- ПРАВАЯ КОЛОНКА — СУММА И ОФОРМЛЕНИЕ -->
-      <aside class="summary">
-        <h3 style="margin-top:0">Ваш заказ</h3>
-
+      <aside class="summary" aria-label="Сводка заказа">
+        <h3>Ваш заказ</h3>
+        <div class="row"><span>Туры</span><span>2</span></div>
         <div class="row"><span>Подытог</span><span>100 BYN</span></div>
-        <div class="row" style="color:var(--amber-sunrise);font-weight:600">
-          <span>Скидки</span><span>-10 BYN</span>
-        </div>
-        <div class="row"><span>Сборы</span><span>—</span></div>
-
-        <div style="border-top:1px solid #f1f3f2;padding-top:12px" class="row total">
-          <span>Итого</span><span>90 BYN</span>
-        </div>
-
-        <!-- Прогресс бонусов -->
-        <div style="margin-top:14px">
-          <div class="muted" style="font-size:13px">До бесплатного подарка:</div>
-          <div class="progress" style="margin-top:6px">
-            <div class="progress__bar"></div>
-          </div>
-          <div class="muted" style="font-size:13px;margin-top:6px">
-            Осталось 40 BYN до бонуса
-          </div>
-        </div>
-
-        <div style="margin-top:16px;display:grid;gap:10px">
-          <button class="btn btn--primary">Оформить заказ</button>
-          <button class="btn btn--secondary">Оплатить позже</button>
-        </div>
+        <div class="row discount"><span>Скидка</span><span>-10 BYN</span></div>
+        <div class="row total"><span>Итого</span><span>90 BYN</span></div>
+        <button class="btn btn--primary" type="submit">Подтвердить и оплатить</button>
       </aside>
 
     </main>
-
-    <footer>
-      © 2025 — Сервис подбора и бронирования экскурсий
-    </footer>
-
   </div>
-
 </body>
 </html>
