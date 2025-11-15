@@ -1,428 +1,58 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Оформить заказ — Экскурсии</title>
-  <style>
-    :root {
-      --forest-green: #3A7D44;
-      --grey-pebble: #6B8F82;
-      --amber-sunrise: #FF9F1C;
-      --bg: #F8F9FA;
-      --text: #212529;
-
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-6: 24px;
-      --space-8: 32px;
-      --radius-lg: 16px;
-      --shadow: 0 6px 18px rgba(33,37,41,0.06);
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      padding: var(--space-6);
-      font-size: 16px;
-      line-height: 1.4;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    .container {
-      max-width: 1160px;
-      margin: 0 auto;
-      display: grid;
-      gap: var(--space-8);
-      padding: 0 var(--space-4);
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: var(--space-4);
-      margin-bottom: var(--space-6);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    header button {
-      padding: 12px 24px;
-      border-radius: 12px;
-      border: none;
-      background-color: var(--grey-pebble);
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    header button:hover {
-      background-color: #5a756d;
-    }
-
-    /* Прогресс-бар */
-    .progress-steps {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin: 0 auto var(--space-8);
-      font-size: 14px;
-      color: var(--forest-green);
-      max-width: 700px;
-    }
-
-    .step {
-      padding: 6px 14px;
-      border-radius: 20px;
-      background: #ececec;
-      font-weight: 500;
-      color: var(--grey-pebble);
-      user-select: none;
-      white-space: nowrap;
-    }
-
-    .step.completed {
-      background: var(--forest-green);
-      color: #fff;
-    }
-
-    .line {
-      width: 45px;
-      height: 3px;
-      background: #ccc;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-
-    .line.completed {
-      background: var(--forest-green);
-    }
-
-    /* Контент: форма и сводка */
-    main.content {
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: var(--space-6);
-    }
-
-    /* Мобильный адаптив */
-    @media (max-width: 880px) {
-      main.content {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Форма */
-    .form-box {
-      background: #fff;
-      border-radius: var(--radius-lg);
-      padding: var(--space-6);
-      box-shadow: var(--shadow);
-      display: grid;
-      gap: var(--space-6);
-    }
-
-    .form-box h2 {
-      margin-top: 0;
-      font-weight: 700;
-      font-size: 20px;
-      color: var(--forest-green);
-    }
-
-    .form-group {
-      display: grid;
-      gap: var(--space-2);
-    }
-
-    label {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    input,
-    textarea {
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #e6e9eb;
-      font-size: 14px;
-      width: 100%;
-      resize: none;
-      font-family: inherit;
-      color: var(--text);
-      transition: border-color 0.25s ease;
-    }
-
-    input:focus,
-    textarea:focus {
-      border-color: var(--forest-green);
-      outline: none;
-    }
-
-    textarea {
-      min-height: 100px;
-    }
-
-   .payment-methods {
-  display: grid;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-}
-
-.payment-methods label {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 15px;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.payment-methods input[type="radio"] {
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
-@media (max-width: 400px) {
-  .payment-methods label {
-    white-space: normal;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Logo Preview</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f5f7fa;
+    margin: 0;
   }
-}
-
-    /* Итог заказа */
-    aside.summary {
-      background: #fff;
-      border-radius: var(--radius-lg);
-      padding: var(--space-6);
-      box-shadow: var(--shadow);
-      position: sticky;
-      top: 24px;
-      height: max-content;
-    }
-
-    aside.summary h3 {
-      margin-top: 0;
-      margin-bottom: var(--space-4);
-      font-weight: 700;
-      font-size: 22px;
-      color: var(--forest-green);
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: var(--space-2);
-      font-size: 16px;
-    }
-
-    .row.discount {
-      color: var(--amber-sunrise);
-      font-weight: 600;
-    }
-
-    .total {
-      font-weight: 700;
-      font-size: 20px;
-      border-top: 1px solid #f1f3f2;
-      padding-top: var(--space-3);
-      margin-top: var(--space-3);
-    }
-
-    /* Кнопки */
-    .btn {
-      padding: 14px;
-      border-radius: 14px;
-      border: 0;
-      cursor: pointer;
-      font-weight: 600;
-      width: 100%;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
-    }
-
-    .btn--primary {
-      background: var(--forest-green);
-      color: #fff;
-    }
-
-    .btn--primary:hover {
-      background: #2e5e2b;
-    }
-
-    /* Чекбокс */
-    .checkbox-label {
-      margin-top: var(--space-4);
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      font-size: 14px;
-      color: var(--text);
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .checkbox-label input {
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-    }
-
-    /* Баннер бонуса */
-    .bonus-banner {
-      background: #fff3e0;
-      border-left: 4px solid var(--amber-sunrise);
-      padding: 12px;
-      border-radius: 12px;
-      margin-top: var(--space-6);
-      font-size: 15px;
-      color: var(--amber-sunrise);
-      font-weight: 600;
-    }
-
-    /* Адаптивность для кнопок и прочего */
-    @media (max-width: 520px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-4);
-      }
-      header button {
-        width: 100%;
-      }
-      aside.summary {
-        position: static;
-        margin-top: var(--space-6);
-      }
-    }
-
-    /* Прогресс-бар */
-    .progress-steps {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin: 0 auto var(--space-8);
-      font-size: 14px;
-      color: var(--forest-green);
-      max-width: 700px;
-    }
-
-    .step {
-      padding: 6px 14px;
-      border-radius: 20px;
-      background: #ececec;
-      font-weight: 500;
-      color: var(--grey-pebble);
-      user-select: none;
-      white-space: nowrap;
-    }
-
-    .step.completed {
-      background: var(--forest-green);
-      color: #fff;
-    }
-
-    .line {
-      width: 45px;
-      height: 3px;
-      background: #ccc;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-
-    .line.completed {
-      background: var(--forest-green);
-    }
-  </style>
+  .logo-wrapper {
+    padding: 40px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  svg {
+    width: 220px;
+    height: 220px;
+  }
+</style>
 </head>
 <body>
-  <div class="container">
+  <div class="logo-wrapper">
+    <!-- Circular Modern Travel Logo -->
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer gradient circle -->
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#3A7D44" />
+          <stop offset="100%" stop-color="#6B8F82" />
+        </linearGradient>
+      </defs>
 
-    <header>
-      <h1>Оформить заказ</h1>
-      <button>← Вернуться в корзину</button>
-    </header>
+      <circle cx="150" cy="150" r="140" fill="url(#grad1)" />
 
-    <div class="progress-steps" aria-label="Прогресс оформления заказа" role="list">
-      <div class="step completed" role="listitem">Корзина</div>
-      <div class="line completed" aria-hidden="true"></div>
-      <div class="step completed" role="listitem">Оформление</div>
-      <div class="line" aria-hidden="true"></div>
-      <div class="step" role="listitem">Оплата</div>
-      <div class="line" aria-hidden="true"></div>
-      <div class="step" role="listitem">Готово</div>
-    </div>
+      <!-- Decorative dots around circle -->
+      <circle cx="150" cy="20" r="6" fill="#F8F9FA" opacity="0.8" />
+      <circle cx="270" cy="150" r="6" fill="#F8F9FA" opacity="0.8" />
+      <circle cx="150" cy="280" r="6" fill="#F8F9FA" opacity="0.8" />
+      <circle cx="30" cy="150" r="6" fill="#F8F9FA" opacity="0.8" />
 
-    <main class="content">
+      <!-- Airplane Icon (simple) -->
+      <path d="M150 80 L165 140 L220 150 L165 160 L150 220 L135 160 L80 150 L135 140 Z" fill="#F8F9FA" opacity="0.9" />
 
-      <section class="form-box" aria-label="Форма оформления заказа">
-        <h2>Данные покупателя</h2>
-        <div class="form-group">
-          <label for="fullname">Имя и фамилия</label>
-          <input id="fullname" type="text" placeholder="Введите ваше имя" required />
-        </div>
-        <div class="form-group">
-          <label for="phone">Телефон</label>
-          <input id="phone" type="tel" placeholder="+375 (__) ___-__-__" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" type="email" placeholder="example@mail.com" required />
-        </div>
-        <div class="form-group">
-          <label for="comment">Комментарий (необязательно)</label>
-          <textarea id="comment" placeholder="Укажите пожелания или дополнительные данные"></textarea>
-        </div>
-
-        <h2>Способ оплаты</h2>
-        <div class="payment-methods" role="radiogroup" aria-label="Способ оплаты">
-          <label><input type="radio" name="pay" value="card" checked /> Банковская карта</label>
-          <label><input type="radio" name="pay" value="onplace" /> Оплата на месте</label>
-          <label><input type="radio" name="pay" value="online" /> Apple Pay / Google Pay</label>
-        </div>
-
-        <label class="checkbox-label">
-          <input type="checkbox" required />
-          Я согласен с условиями сервиса
-        </label>
-
-        <div class="bonus-banner" role="alert" aria-live="polite">
-          🎁 Забронируйте ещё тур и получите <strong>5% скидку</strong> на следующий!
-        </div>
-      </section>
-
-      <aside class="summary" aria-label="Сводка заказа">
-        <h3>Ваш заказ</h3>
-        <div class="row"><span>Туры</span><span>2</span></div>
-        <div class="row"><span>Подытог</span><span>100 BYN</span></div>
-        <div class="row discount"><span>Скидка</span><span>-10 BYN</span></div>
-        <div class="row total"><span>Итого</span><span>90 BYN</span></div>
-        <button class="btn btn--primary" type="submit">Подтвердить и оплатить</button>
-      </aside>
-
-    </main>
+      <!-- Brand Name -->
+      <text x="150" y="255" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="32" fill="#F8F9FA" font-weight="600" letter-spacing="2">
+        ExploreGo
+      </text>
+    </svg>
   </div>
 </body>
 </html>
